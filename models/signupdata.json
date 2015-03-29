@@ -1,0 +1,7 @@
+ {
+      userId : Id,
+      email: emailSubmitted,
+      password: passwordSubmitted, 
+      name: nameSubmitted,
+      preview: previewPreference
+  }

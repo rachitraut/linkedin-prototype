@@ -49,7 +49,6 @@ app.post('/jobpost',user.jobposts);
 //Company profile information and job posting details of the company
 app.post('/companyprofile',company.putdata);
 
-
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
