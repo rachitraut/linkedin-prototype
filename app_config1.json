@@ -1,5 +1,5 @@
 { 
   "AWS_REGION": "",
-  "JOB_POSTING_TABLE": "",
+  "TABLE": "userData",
   "NEW_JOB_POSTING_TOPIC": ""
 }
