@@ -10,7 +10,7 @@ var AWS = require('aws-sdk');
 var app = express();
 var ddb = require('dynamodb');
 
-app.set('port', process.env.PORT || 8081);
+app.set('port', process.env.PORT || 8082);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
@@ -37,17 +37,23 @@ app.get('/', routes.index);
 //POST signup form.
 app.post('/signup', user.signup); 
 
+//profile edit page.
+app.get('/editProfile',user.viewProfile);
+
 //UserProfile page
 app.get('/userprofile',user.getProfile);
 
 //Companyprofile page
-app.get('/companyprofile',company.getProfile);
+//app.get('/companyprofile',company.getProfile);
 
 //Job posting to store the data in DynamoDB and below are the fields chosen for the same.
 app.post('/jobpost',user.jobposts);
 
 //Company profile information and job posting details of the company
-app.post('/companyprofile',company.putdata);
+//app.post('/companyprofile',company.putdata);
+
+//save profile info for users
+app.post('/userProfile',user.postProfile);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

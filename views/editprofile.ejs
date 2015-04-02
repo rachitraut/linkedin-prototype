@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <style>
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+</style>
+<style>
+.right {
+    position: absolute;
+    right: 0px;
+    width: 300px;
+}
+</style>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  
+
+ </head>
+  <body ng-app="" ng-controller="linkedinController" style="margin-top: -50px;margin-left: -50px;margin-right: -50px;">
+      <nav class="navbar navbar-default" style="padding-bottom: 10px;box-shadow: 3px 3px 5px #888888; background-color: #F5F5F5;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      
+    </div>
+    <p>Last logged in:<p id="demo"></p><script>
+document.getElementById("demo").innerHTML = Date();
+</script></td>
+     </tr>
+     </table>
+    </div>
+  </div>
+</nav>
+
+
+
+
+            <form name="myForm">
+                      <div class="container" style="margin-bottom: 30px">
+                      
+                      <canvas id="canvas" width="5" height="5"></canvas>
+                      <input type="button" ng-click="image()" class="btn btn-primary" value="Changes" style="margin-left:-15px">
+                                
+                         <center><legend style="font-style: 30px;">Personal Details</legend></center>
+                           <div class="row" style="margin-left: 20px;">
+                            <div>
+                              Summary:
+                                     <textarea ng-model="userSummary" name="userSummary" class="field span5" rows="5" value="userSummary" 
+                                     style="padding-right: 500px;"></textarea>
+                              
+                            </div><br><br>
+                              <div class="col-md-8">
+       
+                                <span></span>
+                                <input type="reset" class="btn btn-default" value="Cancel">
+                              </div>
+                          </div><br><br>
+                        </div><br>
+
+                    <div class="container" style="margin-bottom: 30px">
+                             <center><legend style="font-style: 30px;">Experience</legend></center>
+
+                          <div class="row" style="margin-left: 20px;">
+                             <div>
+                              Company Name:
+                                        <input type="text" ng-model="companyName" name="companyName" id="compamyName"placeholder="" class="form-control" >
+                                 
+                              </div><br><br>
+                            <div>
+                              Title: 
+                                    <input type="text" ng-model="inputTitle" name="inputTitle" placeholder="" class="form-control">
+                                
+                              </div><br><br>
+                             <div>
+                              Start Date: 
+                                       <input type="date" ng-model="startDate" name="startdate" placeholder="" class="form-control">
+
+                             </div><br><br>
+                             <div>
+                              End Date: 
+                                       <input type="date" ng-model="endDate" name="enddate" placeholder="" class="form-control">
+                               
+                             </div><br><br>
+                             <div>
+                              Description: 
+                              <textarea class="field span5"  ng-model="inputDescription" name="inputDescription" rows="5" id="comment" 
+                                 style="margin-top: 20px;padding-right: 400px;"></textarea>
+                               
+                              </div><br><br>
+                             <div>                           
+                                <span></span>
+                                <input type="reset" class="btn btn-default" value="Cancel">
+                              </div><br><br>
+                              </div>
+                            </div>
+                            
+                       <div class="container" style="margin-bottom: 30px">
+                            <center><legend style="font-style: 30px;">Education</legend></center>
+                          <div class="row" style="margin-left: 20px;">
+                              <div>
+                               School: 
+                                        <input type="text" ng-model="inputSchool" name="inputSchool" placeholder="" class="form-control">
+                              
+                              </div><br><br>
+                              <div>
+                               Field: 
+                                       <input type="text" ng-model="inputField" name="inputField" placeholder="" class="form-control">
+                               
+                                </div><br><br>
+                               <div>
+                               Degree Level: 
+                                      <input type="text" ng-model="inputLevel" name="level" placeholder="" class="form-control">
+                                
+                                </div><br><br>
+                             <div>
+                            
+                              <div>
+                               Start Date: 
+                                        <input type="date" ng-model="startDate1" name="startdate1" placeholder="" class="form-control">
+                               
+                             </div><br><br>
+                            <div>
+                              End Date: 
+                                      <input type="date" ng-model="endDate1" name="enddate1" placeholder="" class="form-control">
+                               
+                             </div><br><br>
+                              <div>
+                               Description: 
+                                       <textarea class="field span5" ng-model="dP" name="dp" rows="5" id="comment" 
+                                 style="margin-top: 20px;padding-right: 400px;"></textarea>
+                                
+                              </div><br><br>
+                             <div>
+                                <input type="button" ng-click="saveInfo()" class="btn btn-primary" value="Save Changes" style="margin-left:-15px">
+                                <span></span>
+                                <input type="reset" class="btn btn-default" value="Cancel">
+                              </div><br><br>
+                          </div>
+                        </div>
+                  </form>
+        <script>
+        function linkedinController($scope,$http,$location) {
+           
+            $scope.summary = false;
+            $scope.companyname = false;
+            $scope.inputtitle = false;
+            $scope.inputlocation = false;
+            $scope.startdate = false;
+            $scope.enddate = false;
+            $scope.inputdescription = false;
+            $scope.inputschool = false;
+            $scope.inputfield = false;
+            $scope.inputlevel = false;
+            $scope.inputgrade = false;
+            $scope.startdate1 = false;
+            $scope.enddate1 = false;
+            $scope.descp = true;
+
+            $scope.inputFirstName = function() {
+                $scope.inputfirstname = !$scope.inputfirstname;
+            };
+            $scope.inputLastName = function() {
+                $scope.inputlastname = !$scope.inputlastname;
+            };
+            $scope.inputEmailAddress = function() {
+                $scope.inputemailaddress = !$scope.inputemailaddress;
+            };
+            $scope.userSummary = function() {
+                $scope.summary = !$scope.summary;
+            };
+             $scope.companyName = function() {
+                $scope.companyname = !$scope.companyname;
+            };
+             $scope.inputTitle = function() {
+                $scope.inputtitle = !$scope.inputtitle;
+            };
+             $scope.inputLocation = function() {
+                $scope.inputlocation = !$scope.inputlocation;
+            };
+             $scope.startDate = function() {
+                $scope.startdate = !$scope.startdate;
+            };
+             $scope.endDate = function() {
+                $scope.enddate = !$scope.enddate;
+            };
+             $scope.inputDescription = function() {
+                $scope.inputdescription = !$scope.inputdescription;
+            };
+             $scope.inputSchool = function() {
+                $scope.inputschool = !$scope.inputschool;
+            };
+             $scope.inputField = function() {
+                $scope.inputfield = !$scope.inputfield;
+            };
+             $scope.inputLevel = function() {
+                $scope.inputlevel = !$scope.inputlevel;
+            };
+             $scope.inputGrade = function() {
+                $scope.inputgrade = !$scope.inputgrade;
+            };
+             $scope.startDate1 = function() {
+                $scope.startdate1 = !$scope.startdate1;
+            };
+             $scope.endDate1 = function() {
+                $scope.enddate1 = !$scope.enddate1;
+            };
+             $scope.DP = function() {
+                $scope.descp = !$scope.descp;
+            };
+
+		  	$scope.image=function() {
+  				var canvas = document.getElementById("canvas");
+				var dataURL = canvas.toDataURL();
+				console.log("here we are");
+				console.log(dataURL);
+  			};
+               
+               $scope.saveInfo = function() {
+                  $http({
+                        method: 'POST',
+                        url: '/userProfile',
+                        data: { 
+                                
+                                "school": $scope.inputSchool,
+                                "field": $scope.inputField,
+                                "grade": $scope.inputGrade,
+                                "startdate1": $scope.startDate1,
+                                "enddate1": $scope.endDate1,
+                                "dp": $scope.dP,
+                                "level": $scope.inputLevel,
+                                "companyName": $scope.companyName, 
+                                "title": $scope.inputTitle,
+                                "location": $scope.inputLocation,
+                                "startdate": $scope.startDate,
+                                "enddate": $scope.endDate,
+                                "description": $scope.inputDescription,
+                                "userSummary": $scope.userSummary
+                              }
+                        
+                     }).success(function(response){
+                       
+                        alert(JSON.stringify(response));
+                        
+                        if(response.save == "Success")
+                          window.location = '/viewProfile';
+                        else
+                          window.location = '/viewProfile';
+                    }).error(function(error){
+                        alert("error");
+                    });
+                };
+ 
+        }
+        </script> 
+  </body>
+</html>

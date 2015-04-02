@@ -1,4 +1,5 @@
-var config = require('./models/auth');
+var config = require('../models/auth');
+var ejs = require("ejs");
 var ddb = require('dynamodb').ddb({ accessKeyId:config.ACCESS_KEY,secretAccessKey: config.ACCESS_SECRET, endpoint:config.ENDPOINT});
 
 exports.signup=function(req, res) {
@@ -54,4 +55,35 @@ exports.getProfile = function(req,res){
 		            console.log(err);
 		   }
 	   });
+};
+
+exports.viewProfile = function(req,res){
+	ejs.renderFile('./views/editprofile.ejs',function(err, result) {
+		   // render on success
+		   if (!err) {
+		            res.end(result);
+		   }
+		   // render or error
+		   else {
+		            res.end('An error occurred');
+		            console.log(err);
+		   }
+	   });
+};
+exports.postProfile = function(req,res){
+	var item = {
+			userId : "4",
+			school : req.body.school,
+			field : req.body.field
+			};
+	console.log(item);
+	ddb.putItem('userData',item,{}, function(err, res,cap) {
+	    if (err) {
+	      console.log('Error adding item to database: ', err);
+	      
+	    } else {
+	      console.log('Form data added to database.');
+	     
+	    }
+  });
 };
