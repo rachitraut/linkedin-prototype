@@ -1,7 +1,6 @@
 var config = require('../models/auth');
 var ddb = require('dynamodb').ddb({ accessKeyId:config.ACCESS_KEY,secretAccessKey: config.ACCESS_SECRET, endpoint:config.ENDPOINT});
 CompanyProfile = require('../models/CompanyModel');
-JobPostsSchema = require('../models/JobPostsSchema');
 exports.postCompany = function(req,res){
 	/*var item = {
 			userId :req.body.userId,

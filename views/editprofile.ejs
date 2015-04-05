@@ -63,7 +63,7 @@ document.getElementById("demo").innerHTML = Date();
                          
                             <div>
                              Summary:
-                                    <textarea ng-model="userSummary" class="form-control" rows="5"></textarea>
+                                    <textarea ng-model="bio" class="form-control" rows="5"></textarea>
                               
                             </div><br>
                                 <span></span>
@@ -173,25 +173,24 @@ document.getElementById("demo").innerHTML = Date();
                         method: 'POST',
                         url: '/userProfile',
                         data: { 
-                                "address":$scope.address,
+                                "Address":$scope.address,
                                 "Country":$scope.country,
-                                "ZipCode":$scope.zipcode
+                                "ZipCode":$scope.zipcode,
+                                "Bio":$scope.bio,
+                                "CompanyName": $scope.companyName, 
+                                "CompanyTitle": $scope.inputTitle,                               
+                                "CompanyStartDate": $scope.startDate,
+                                "CompanyEndDate": $scope.endDate,
+                                "CompanyDescription": $scope.inputDescription,
                                 "EducationSchool": $scope.inputSchool,
-                                "EducationDegree":$scope.degree,
+                                "EducationDegree":$scope.degree,                            
                                 "EducationField": $scope.inputField,
+                                "Level": $scope.inputLevel,
                                 "Grade": $scope.inputGrade,
                                 "EducationStartDate": $scope.schoolStartDate,
-                                "EducationEndDate": $scope.schoolEndDate,
+                                "EducationEndDate": $scope.schoolEndDate                                             
                                 
-                                "level": $scope.inputLevel,
-                                "companyName": $scope.companyName, 
-                                "title": $scope.inputTitle,
-                                "location": $scope.inputLocation,
-                                "startdate": $scope.startDate,
-                                "enddate": $scope.endDate,
-                                "description": $scope.inputDescription,
-                                "userSummary": $scope.userSummary
-                              }
+                            }
                         
                      }).success(function(response){
                        

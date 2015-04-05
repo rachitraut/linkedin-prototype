@@ -90,12 +90,13 @@ exports.postProfile = function(req,res){
 	    }
   });*/
 	um = new UserModel;
-	um.UserId = req.body.UserId;
-	um.FirstName = req.body.FirstName;
-	um.LastName = req.body.LastName;
-	um.Bio = req.body.Bio;
+	um.UserId = 001//req.body.UserId;
+	um.FirstName = "Yash"//req.body.FirstName;
+	um.LastName = "Oswal"//req.body.LastName;
+	um.Address = req.body.Address;
 	um.Country = req.body.Country;
 	um.ZipCode = req.body.ZipCode;
+	um.Bio = req.body.Bio;
 	um.Company.Name = req.body.CompanyName;
 	um.Company.Title = req.body.CompanyTitle;
 	um.Company.StartDate = req.body.CompanyStartDate;
@@ -104,15 +105,15 @@ exports.postProfile = function(req,res){
 	um.Education.School = req.body.EducationSchool;
 	um.Education.Degree = req.body.EducationDegree;
 	um.Education.Field = req.body.EducationField;
+	um.Education.Level = req.body.Level;
+	um.Education.Grade = req.body.Grade;
 	um.Education.StartDate = req.body.EducationStartDate;
 	um.Education.EndDate = req.body.EducationEndDate;
-	um.UserFollowed.push(req.body.UserFollowed);
-	um.CompanyFollowed.push(req.body.CompanyFollowed);
 	
 	um.save(function(err){
 		if(err)
 			throw err;
 		console.log("user profile added : " + um);
 	});		
-	res.end(um);
+	res.end("Profile Saved!!");
 };
