@@ -31,6 +31,10 @@ var tables =require('./models/tables');
 //Create SNS(Simple notification Service) client and pass in region.
 var sns = new AWS.SNS({ region: config.AWS_REGION});
 
+//mongodb connection
+var mongoconn = require("./routes/mongoConnection");
+mongoconn.createMongoConnection();
+
 //GET home page.
 app.get('/', routes.index);
 
@@ -50,7 +54,7 @@ app.get('/userprofile',user.getProfile);
 app.post('/jobpost',user.jobposts);
 
 //Company profile information and job posting details of the company
-//app.post('/companyprofile',company.putdata);
+app.post('/companyProfile',company.postCompany);
 
 //save profile info for users
 app.post('/userProfile',user.postProfile);

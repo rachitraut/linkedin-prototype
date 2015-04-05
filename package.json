@@ -10,6 +10,7 @@
     "jade": "*",
     "aws-sdk": "*",
     "dynamodb":"*",
-    "ejs":"*"
+    "ejs":"*",
+    "mongoose":"*"
   }
 }
