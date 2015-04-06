@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>A New Startup: Sign Up Today!</title>
+      <!--Bootstrap core CSS. If no theme is passed in, we'll default to the theme called 'flatly'.   -->
+      <link href="../static/bootstrap/css/theme/flatly/bootstrap.css" rel="stylesheet">
+      <!--Custom styles for this template-->
+      <link href="../static/bootstrap/css/jumbotron-narrow.css" rel="stylesheet">
+   </head>
+   <body>
+      <div class="container">
+         <div class="header">
+            <ul class="nav nav-pills pull-right">
+               <li class="active"><a href="#">Home</a></li>
+               <li><a href="#">About</a></li>
+               <li><a href="#">Blog</a></li>
+               <li><a href="#">Press</a></li>
+            </ul>
+            <h3 class="text-muted">A New Startup</h3>
+         </div>
+         <div id="signupSuccess" style="display:none" class="alert alert-success">
+            <p id="signupSuccessText">Thanks for signing up! You'll be among the first to know when we launch.</p>
+         </div>
+         <div id="signupDuplicate" style="display:none" class="alert alert-success">
+            <p id="signupDuplicateText">Fear not, you're already on the list! You'll be among the first to know when we launch.</p>
+         </div>
+         <div id="signupError" style="display:none" class="alert alert-info">
+            <p id="signupErrorText">Well this is embarrassing. It looks like we're having trouble getting you on the list.</p>
+         </div>
+         <div class="jumbotron">
+            <h1>The next big thing is coming...</h1>
+            <p class="lead">We're pretty thrilled to unveil our latest creation. Sign up below to be notified when we officially launch!</p>
+            <p><a data-toggle="modal" href="#signupModal" class="btn btn-lg btn-success">Sign up today</a></p>
+         </div>
+         <div class="footer">
+            <p>© A New Startup 2013</p>
+         </div>
+         <!-- Modal-->
+         <div id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true" class="modal fade">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+                     <h4 class="modal-title">Provide a few details and we'll be in touch...</h4>
+                  </div>
+                  <div class="modal-body">
+                     <form id="signupForm" role="form">
+                        <input type="hidden" id="theme" name="theme" value="flatly">
+                        <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" placeholder="Your name" class="form-control"></div>
+                        <div class="form-group"><label for="email">Email address</label><input type="email" id="email" name="email" placeholder="Your email address" class="form-control"></div>
+                        <div class="form-group">
+                           <label for="previewAccess">Interested in Preview Access?</label>
+                           <select name="previewAccess" class="form-control">
+                              <option>Yes</option>
+                              <option>No</option>
+                           </select>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="modal-footer"><button id="signup" type="button" class="btn btn-primary">Sign Up!</button></div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script src="../static/jquery/jquery.js"></script><script src="../static/bootstrap/js/bootstrap.min.js"></script><script>$(document).ready(function() {
+         $("#signup").click(function() {
+           $.post( "/signup", $("#signupForm").serialize(),
+                   function(data) {
+                     $("#signupSuccess").show();
+                   }
+                 )
+                 .error(function(xhr) {
+                   switch(xhr.status) {
+                     case 409:
+                       $("#signupDuplicate").show();
+                       break;
+                     default:
+                       $("#signupError").show();
+                   }
+                 })
+                 .always(function() {
+                   $("#signupModal").modal('hide');
+                 });
+         })
+         })
+      </script>
+   </body>
+</html>
