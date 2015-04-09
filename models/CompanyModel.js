@@ -3,18 +3,18 @@ var Schema = mongoose.Schema;
 //var JobPostsSchema = require("./JobPostsSchema");
 
 var company = new Schema({
-	UserId:Number, 
-	CompanyId:Number,
-	CompanyName:String, 
-	JobPosts:[{
-		JobName:String,
-	      	JobDescription:String,
-	    	PostDate:{type:Date},
-	    	ExpiryDate:{type:Date}
-	    	}]
+	_id:String,
+	UserId:Number,
+	CompanyName:String,
+	Adress:String,
+	Country:String,
+	Zip:String,
+	Overview:String,
+	Url:String,
+	Founded:String,
+	Numoffollowers: Number,
+	JobPosts:[String]
 });
-
-
 
 
 

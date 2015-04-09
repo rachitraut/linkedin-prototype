@@ -58,13 +58,11 @@ router.get('/', routes.index);
 router.get('/editProfile',user.viewProfile);
 
 //UserProfile page
-router.get('/userprofile',user.getProfile);
+router.get('/userProfile',user.getProfile);
 
 //Companyprofile page
 //router.get('/companyprofile',company.getProfile);
 
-//Job posting to store the data in DynamoDB and below are the fields chosen for the same.
-router.post('/jobpost',user.jobposts);
 
 //Company profile information and job posting details of the company
 router.post('/companyProfile',company.postCompany);
@@ -72,6 +70,11 @@ router.post('/companyProfile',company.postCompany);
 //save profile info for users
 router.post('/userProfile',user.postProfile);
 
+//Companyprofile page
+router.get('/editCompanyProfile',company.getEditProfile);
+
+//save jobPosts in the company
+router.post('/postJob',company.jobPosts);
 
 
 
