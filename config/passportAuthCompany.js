@@ -1,11 +1,8 @@
 //var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var connection = require('../config/sqldb.js');
-
 var bcrypt   = require('bcrypt-nodejs');
+var connection = require('../config/mysqlQuery');
 
-
-var connection = connection.getConnection();
 
 //DEFINE USER MODEL
 function Company(companyId, email, password){
@@ -36,7 +33,7 @@ function findByCompany(companyname, fn)
     
     var queryString = 'Select * from CompanyLoginDetails where email=' + "'"+ companyname +"'"; 
    
-    connection.query(queryString, function(err, results, fields){
+    connection.execQuery(queryString, function(err, results, fields){
     
         console.log("rows : "+ results + " fields: " + fields);
         
@@ -67,7 +64,7 @@ function updateLastLogin(companyname, fn)
     
     var queryString = 'Update CompanyLoginDetails set LastLogIn = Now() where email =' + "'"+ companyname +"'"; 
     
-    connection.query(queryString, function(err, results, fields){
+    connection.execQuery(queryString, function(err, results, fields){
         
         console.log(JSON.stringify(results));
 
@@ -94,7 +91,7 @@ var registerNewCompany =  function (req, res, next)
     
         var qrStr = 'Select * from CompanyLoginDetails where email=' + "'"+ email +"'"; 
    
-        connection.query(qrStr, function(err, results, fields){
+        connection.execQuery(qrStr, function(err, results, fields){
    
             if( (results[0] != undefined))
             {
@@ -115,7 +112,7 @@ var registerNewCompany =  function (req, res, next)
 
                 console.log("In registerNewCompany()");
 
-                connection.query(queryString, function(err, results, fields){
+                connection.execQuery(queryString, function(err, results, fields){
 
                         if(err){
                             console.log(err);

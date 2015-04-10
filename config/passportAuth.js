@@ -1,10 +1,10 @@
 //var passport = require('passport');
+//var connection = require('../config/sqldb.js');
+//var connection = connection.getConnection();
+
 var LocalStrategy = require('passport-local').Strategy;
-var connection = require('../config/sqldb.js');
-
 var bcrypt   = require('bcrypt-nodejs');
-
-var connection = connection.getConnection();
+var connection = require('../config/mysqlQuery');
 
 
 //DEFINE USER MODEL for serialization/deserialization purpose
@@ -56,7 +56,7 @@ var registerNewUser =  function (req, res, next)
     
         var qrStr = 'Select * from LoginDetails where email=' + "'"+ email +"'"; 
    
-        connection.query(qrStr, function(err, results, fields){
+        connection.execQuery(qrStr, function(err, results, fields){
    
             if( (results[0] != undefined))
             {
@@ -77,7 +77,7 @@ var registerNewUser =  function (req, res, next)
 
                 console.log("In registerNewUser()");
 
-                connection.query(queryString, function(err, results, fields){
+                connection.execQuery(queryString, function(err, results, fields){
 
                         if(err){
                             console.log(err);
@@ -94,9 +94,7 @@ var registerNewUser =  function (req, res, next)
                         }
            
                     });//inner query
-                    
-                newConnection.end();
-            }//else
+               }//else
 
     });
     
@@ -109,7 +107,7 @@ function updateLastLogin(username, fn)
     
     var queryString = 'Update LoginDetails set LastLogIn = Now() where email =' + "'"+ username +"'"; 
     
-    connection.query(queryString, function(err, results, fields){
+    connection.execQuery(queryString, function(err, results, fields){
         
         console.log(JSON.stringify(results));
 
@@ -125,7 +123,7 @@ function findByUser(username, fn)
     
     var queryString = 'Select * from LoginDetails where email=' + "'"+ username +"'"; 
    
-    connection.query(queryString, function(err, results, fields){
+    connection.execQuery(queryString, function(err, results, fields){
     
         console.log("rows : "+ results + " fields: " + fields);
         
@@ -155,7 +153,7 @@ function findUserById(userid, fn)
 {
     var queryStr = 'Select * from LoginDetails where Id=' + "'"+ userid +"'";
     
-    connection.query(queryStr, function(err, results, fields){
+    connection.execQuery(queryStr, function(err, results, fields){
        
         if(results[0].Id){
             var user =  new User();
@@ -179,7 +177,7 @@ function findCompanyById(companyid, fn)
 {
     var queryStr = 'Select * from CompanyLoginDetails where CompanyId=' + "'"+ companyid +"'";
     
-    connection.query(queryStr, function(err, results, fields){
+    connection.execQuery(queryStr, function(err, results, fields){
        
         if(results[0].CompanyId){
             var company =  new Company();
