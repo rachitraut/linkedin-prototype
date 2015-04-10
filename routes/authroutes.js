@@ -1,5 +1,6 @@
-var connection = require('../config/sqldb.js');
+//var connection = require('../config/sqldb.js');
 var authHandle = require('../config/passportAuth.js');
+var authHandleCompany = require('../config/passportAuthCompany');
 var user = require('../routes/userprofile.js');
 var company = require('../routes/companyprofile.js');
 var routes = require('../routes/index.js');
@@ -15,40 +16,87 @@ router.get('/home', function(req, res, next) {
 });
 
 
+/* USER login */
+
+router.post('/signup/user', authHandle.registerNewUser, passport.authenticate('local-login', { successRedirect : '/profile/user', 
+                                               failureRedirect : '/login/user', 
+                                               failureFlash : true 
+      }));
 
 
-router.get('/signup', function(req, res){
+router.post('/login/user', passport.authenticate('local-login', { successRedirect : '/profile/user', 
+                                               failureRedirect : '/login/user', 
+                                               failureFlash : true 
+      }));
+
+
+router.get('/signup/user', function(req, res){
     res.render('signup', { message: req.flash('signupMessage') });
 });
 
 
-
-router.post('/signup', authHandle.registerNewUser);
-
-
-router.get('/login', function(req, res){
+//get login page for user
+router.get('/login/user', function(req, res){
  
     res.render('login', { user: req.user, message: req.flash('error') });
 });
 
 
+router.get('/logout/user', function(req, res){
+    
+    req.logout();
+    res.redirect('/');
+});
 
-router.post('/login', passport.authenticate('local-login', { successRedirect : '/profile', 
-                                               failureRedirect : '/login', 
-                                               failureFlash : true 
-      }));
 
-router.get('/profile', isLoggedIn, function(req, res){
+router.get('/profile/user', isLoggedIn, function(req, res){
     
     res.render('profile', { user : req.user});
 });
 
 
-router.get('/logout', function(req, res){
+
+
+/* COMPANY login and sign up routes*/
+
+
+router.get('/signup/company', function(req, res){
+    res.render('companysignup', { message: req.flash('signupMessage') });
+});
+
+
+router.post('/signup/company', authHandleCompany.registerNewCompany, passport.authenticate('local-company-login', { successRedirect : '/profile/company',
+                                                                           failureRedirect : '/login/company',
+                                                                           failureFlash : true
+   }));
+
+router.get('/login/company', function(req, res){
+    
+    res.render('companylogin', {user: req.company, message: req.flash('error')});
+});
+
+
+router.post('/login/company', passport.authenticate('local-company-login', { successRedirect : '/profile/company',
+                                                                           failureRedirect : '/login/company',
+                                                                           failureFlash : true
+   }));
+
+
+router.get('/logout/company', function(req, res){
     
     req.logout();
     res.redirect('/');
 });
+
+router.get('/profile/company', isLoggedIn, function(req, res){
+    
+    
+    console.log("From backend: " + JSON.stringify(req.user));
+    
+    res.render('profile', { user : req.user});
+});
+
+
 
 
 

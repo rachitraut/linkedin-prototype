@@ -4,24 +4,22 @@ var connection = require('../config/sqldb.js');
 
 var bcrypt   = require('bcrypt-nodejs');
 
+var connection = connection.getConnection();
 
 
-//CONNECT TO MYSQL
-    connection.connect(function(err) {
-          if (err) {
-            console.error('error connecting: ' + err.stack);
-            return;
-          }
-
-            console.log('connected  as id ' + connection.threadId);
-          
-    });
-
-
-//DEFINE USER MODEL
+//DEFINE USER MODEL for serialization/deserialization purpose
 function User(userId, email, password){
 
     this.userId = userId;
+    this.email = email;
+    this.password = password;
+}
+
+
+//DEFINE COMPANY MODEL for serialization/deserialization purpose
+function Company(companyId, email, password){
+
+    this.companyId = companyId;
     this.email = email;
     this.password = password;
 }
@@ -38,59 +36,6 @@ function validatePassword(password, userpassword) {
     return bcrypt.compareSync(password, userpassword);
 };
 
-
-
-//FIND USER IN DATABASE
-function findByUser(username, fn)
-{
-     console.log("In findByUser " + username);
-    
-    var queryString = 'Select * from LoginDetails where email=' + "'"+ username +"'"; 
-   
-    connection.query(queryString, function(err, results, fields){
-    
-        console.log("rows : "+ results + " fields: " + fields);
-        
-        console.log("User : " + results[0].email + " " +results[0].password);
-        
-        if(results[0].email == username)
-        {
-            var user =  new User();
-            user.userId = results[0].Id;
-            user.email = results[0].email;
-            user.password = results[0].password;
-            
-            return fn(null, user);
-        }
-        
-        return fn(null, null);
-    });
-    
-}
-
-
-function findById(userid, fn)
-{
-    var queryStr = 'Select * from LoginDetails where Id=' + "'"+ userid +"'";
-    
-    connection.query(queryStr, function(err, results, fields){
-       
-        if(results[0].Id){
-            var user =  new User();
-            user.userId = results[0].Id;
-            user.email = results[0].email;
-            user.password = results[0].password;
-            
-            fn(null, user);
-        }
-        else{
-         
-            fn(new Error("User " + userid + " does not exists"));
-        }
-        
-    });
-    
-}
 
 
 //to register a new user
@@ -112,7 +57,6 @@ var registerNewUser =  function (req, res, next)
         var qrStr = 'Select * from LoginDetails where email=' + "'"+ email +"'"; 
    
         connection.query(qrStr, function(err, results, fields){
-
    
             if( (results[0] != undefined))
             {
@@ -142,40 +86,171 @@ var registerNewUser =  function (req, res, next)
                         if(results != undefined){
                             console.log("Insert results: " + results);
                             console.log("User registered");
-                            res.render('signup', { message : "User registered, please proceed to login!" });    
+                            //res.render('signup', { message : "User registered, please proceed to login!" });    
+                            next();
                         }
                         else{
                             res.render('signup', { message : "Error occured! Please try again!"});
                         }
-
-                        
+           
                     });//inner query
                     
+                newConnection.end();
             }//else
 
-    });    
-};//registernewuser
+    });
+    
+}//registernewuser
+
+
+function updateLastLogin(username, fn)
+{
+    console.log("In update last login");
+    
+    var queryString = 'Update LoginDetails set LastLogIn = Now() where email =' + "'"+ username +"'"; 
+    
+    connection.query(queryString, function(err, results, fields){
+        
+        console.log(JSON.stringify(results));
+
+        
+    });
+}
+
+
+//FIND USER IN DATABASE
+function findByUser(username, fn)
+{
+     console.log("In findByUser " + username);
+    
+    var queryString = 'Select * from LoginDetails where email=' + "'"+ username +"'"; 
+   
+    connection.query(queryString, function(err, results, fields){
+    
+        console.log("rows : "+ results + " fields: " + fields);
+        
+        //if user does not exist
+        if(results[0] != undefined)
+        {
+            console.log("User : " + results[0].email + " " +results[0].password);  
+            
+            if(results[0].email == username)
+            {
+                var user =  new User();
+                user.userId = results[0].Id;
+                user.email = results[0].email;
+                user.password = results[0].password;
+
+                return fn(null, user);
+            }
+        }
+    
+        return fn(null, false);
+    });
+    
+}
+
+
+function findUserById(userid, fn)
+{
+    var queryStr = 'Select * from LoginDetails where Id=' + "'"+ userid +"'";
+    
+    connection.query(queryStr, function(err, results, fields){
+       
+        if(results[0].Id){
+            var user =  new User();
+            user.userId = results[0].Id;
+            user.email = results[0].email;
+            user.password = results[0].password;
+            
+            fn(null, user);
+        }
+        else{
+         
+            fn(new Error("User " + userid + " does not exists"));
+        }
+        
+    });
+    
+}
+
+
+function findCompanyById(companyid, fn)
+{
+    var queryStr = 'Select * from CompanyLoginDetails where CompanyId=' + "'"+ companyid +"'";
+    
+    connection.query(queryStr, function(err, results, fields){
+       
+        if(results[0].CompanyId){
+            var company =  new Company();
+            company.companyId = results[0].CompanyId;
+            company.email = results[0].email;
+            company.password = results[0].password;
+            
+            fn(null, company);
+        }
+        else{
+         
+            fn(new Error("Company " + companyid + " does not exists"));
+        }
+        
+    });
+    
+}
+
+
 
 module.exports.registerNewUser = registerNewUser;
 
 
 var passportAuth = function(passport){
         
-//
+    //serialize user to decide what to stor in session
     passport.serializeUser(function(user, done){
-        done(null, user.userId);
+        
+        console.log('******************* In deserialize ' + user);
+        
+        if(user.userId != undefined)
+        {
+            console.log('@@@@@@@@@@@@@@@@@ Serializing user ' + user);
+            done(null, {'user' : user.userId});
+        }
+        if(user.companyId != undefined)
+        {
+            console.log('@@@@@@@@@@@@@@@@@@@@@@ Serializing company ' + user);
+            done(null, {'company' : user.companyId})
+        }
+        
     });
 
-    //
-    passport.deserializeUser(function(id, done){
-        findById(id, function(err, user){
-            done(err, user);
-        });
+    //deserialize user to get data and then authenticate 
+    passport.deserializeUser(function(obj, done){
+               
+        
+        
+        if(obj.user != undefined)
+        {
+            console.log('****************** Deserializing user ' + obj.user);
+                findUserById(obj.user, function(err, user)
+                {
+                    done(err, user);
+                });
+        }
+        if(obj.company != undefined)
+        {
+            console.log('******************** Deserializing company ' + obj.company);
+            findCompanyById(obj.company, function(err, company)
+            {
+                    done(err, company);
+            });
+        }
+        
+      
     });
 
     
 
-    /*========== LOCAL LOGIN ======================*/
+    /*========== LOCAL USER LOGIN ======================*/
     
     passport.use('local-login', new LocalStrategy(
                 {
@@ -206,6 +281,8 @@ var passportAuth = function(passport){
                             console.log("checking secured password : " + user.password);
                             return done(null, false, {message : "Invalid password"}); 
                         }
+                        updateLastLogin(email);
+                        
                         return done(null, user);
                     });
                 });

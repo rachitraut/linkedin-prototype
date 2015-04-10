@@ -14,6 +14,11 @@ var http = require('http');
 var fs = require('fs');
 var AWS = require('aws-sdk');
 
+//Get a connection to mysql
+var sqldb = require('./config/sqldb');
+//var connection  = sqldb.getConnection();
+
+
 var app = express();
 
 
@@ -23,9 +28,9 @@ var app = express();
 var authroutes = require('./routes/authroutes');
 
 
-
 //import passport function
 require('./config/passportAuth').passportAuth(passport);
+require('./config/passportAuthCompany').passportAuthCompany(passport);
 
 //app.set('port', process.env.PORT || 8082);
 app.set('views', path.join(__dirname, 'views'));
