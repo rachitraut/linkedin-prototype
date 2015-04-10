@@ -98,8 +98,6 @@ router.get('/profile/company', isLoggedIn, function(req, res){
 
 
 
-
-
 router.get('/', routes.index);
 
 //profile edit page.
@@ -124,6 +122,7 @@ router.get('/editCompanyProfile',company.getEditProfile);
 //save jobPosts in the company
 router.post('/postJob',company.jobPosts);
 
+router.get('/getJob',company.getJobPosts);
 
 
 /*=========== HELPER FUNCTIONS ===========================*/

@@ -6,8 +6,9 @@ var jobPost = new Schema({
 			CompanyId:String,
 			JobName:String,
 			KeyWords:[String],
+			SkillSet:String,
 	      	JobDescription:String,
-	      	Location : String,
+	      	JobLocation : String,
 	    	PostDate:{type:Date},
 	    	ExpiryDate:{type:Date}
 			});

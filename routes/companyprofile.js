@@ -100,7 +100,8 @@ exports.jobPosts = function(req,res){
 	console.dir(result);
 	mc.end();
 });
-	//
+	//End of saving to memcached
+
 	CompanyProfile.findOne({'CompanyId':req.body.CompanyId},function(err,response){
 		if (err)
 			throw err;
@@ -115,6 +116,8 @@ exports.jobPosts = function(req,res){
 	res.end();	
 };
 
+
+//Get function for the Job Search:-
 exports.getJobPosts = function(req,res){
 
 	jp = new JobPosts;
@@ -137,13 +140,22 @@ exports.getJobPosts = function(req,res){
 	//Saving in Memcahed
 	var locationForJob = //from the client side//
 	var SkillForJob	= //from the client side//
-	
+	var JobNameForJob = //form the client side//
 	mc.get(locationForJob,function(err,response,key){
 		if(response != null){
 
 		}
 	});
+	mc.get(SkillForJob,function(err,response,key){
+		if(response != null){
 
+		}
+	});
+	mc.get(JobNameForJob,function(err,response,key){
+		if(response != null){
+
+		}
+	});
 	//
 	// CompanyProfile.findOne({'CompanyId':req.body.CompanyId},function(err,response){
 	// 	if (err)
@@ -156,8 +168,17 @@ exports.getJobPosts = function(req,res){
 	// 	});
 		
 	// });
-	res.end();
-	
+	ejs.renderFile('./views/jobposts.ejs',function(err, result) {
+		   // render on success
+		   if (!err) {
+		            res.end(result);
+		   }
+		   // render or error
+		   else {
+		            res.end('An error occurred');
+		            console.log(err);
+		   }
+	   });
 	
 };
 

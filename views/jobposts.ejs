@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <style>
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+</style>
+<style>
+.right {
+    position: absolute;
+    right: 0px;
+    width: 300px;
+}
+</style>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  
+
+ </head>
+  <body ng-app="" ng-controller="jobController" style="margin-top: -50px;margin-left: -50px;margin-right: -50px;">
+      <nav class="navbar navbar-default" style="padding-bottom: 10px;box-shadow: 3px 3px 5px #888888; background-color: #F5F5F5;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      
+    </div>
+    <p>Last logged in:<p id="demo"></p><script>
+document.getElementById("demo").innerHTML = Date();
+</script></td>
+     </tr>
+     </table>
+    </div>
+  </div>
+</nav>
+
+            <form name="myForm">
+                      <div class="container" style="margin-bottom: 30px">                
+                      <canvas id="canvas" width="5" height="5"></canvas>
+                             
+                         <center><legend style="font-style: 30px;">Job Search Page</legend></center>
+                              <div>
+                        		<!-- Search for the peculiar job profile -->
+                        		<input type="text" class="form-control input-lg text-center" placeholder="Land for your next Job...search by SkillSet" ng-model="SkillSet">
+                    		  </div><br>
+                    		  <div>
+                        		<!-- Search for the peculiar job profile -->
+                        		<input type="text" class="form-control input-lg text-center" placeholder="Land for your next Job...search by JobLocation" ng-model="JobLocation">
+                    		  </div><br>
+                    		  <div>
+                        		<!-- Search for the peculiar job profile -->
+                        		<input type="text" class="form-control input-lg text-center" placeholder="Land for your next Job...search by JobName" ng-model="JobName">
+                    		  </div><br>
+                        </div>
+                  </form>
+                  
+        <script>
+        function jobController($scope,$http,$location) {
+           
+          
+		  	$scope.image=function() {
+  				var canvas = document.getElementById("canvas");
+				var dataURL = canvas.toDataURL();
+				console.log("Inside the Job Page");
+				console.log(dataURL);
+  			};
+               
+               $scope.saveInfo = function() {
+               console.log("In Job function");
+                  $http({
+                        method: 'GET',
+                        url: '/getJob',
+                        data: { 
+                                //"jobSearchKeyword" :$scope.jobSearchKeyword,
+                                 "SkillSet":$scope.SkillSet,
+                                 "JobName":$scope.JobName,
+                                 "JobLocation":$scope.JobLocation
+                                // "PostDate":$scope.PostDate,
+                                // "ExpiryDate":$scope.ExpiryDate                                            
+                            }
+                        
+                     }).success(function(response){
+                       
+                        alert(JSON.stringify(response));
+                        
+                        if(response.save == "Success")
+                          $http({
+                        	method: 'GET',
+                        	url: '/getJob'
+                        	})
+                        else
+                          window.location = '/';
+                    }).error(function(error){
+                        alert("error");
+                    });
+                };
+ 
+        }
+        </script> 
+  </body>
+</html>
