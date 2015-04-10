@@ -42,17 +42,7 @@ exports.postCompany = function(req,res){
 	cm.Overview = req.body.Overview;
 	cm.Url = req.body.Url;
 	cm.Founded = req.body.Founded;
-	//console.log("Now date : " + jm.PostDate);
-	//console.log("Expired date : " + date);
-	/*cm.JobPosts.push({
-		JobName : req.body.JobPostsJobName,
-		JobDescription : req.body.JobPostsJobDescription,
-		PostDate : new Date,
-		ExpiryDate : date});*/
-	/*cm.JobPosts.JobName = req.body.JobPostsJobName;
-	cm.JobPosts.JobDescription = req.body.JobPostsJobDescription;
-	cm.JobPosts.PostDate = req.body.JobPostsPostDate;
-	cm.JobPosts.ExpiryDate = req.body.JobPostsExpiryDate;*/
+
 	cm.save(function(err){
 		if(err)
 			throw err;
@@ -138,9 +128,9 @@ exports.getJobPosts = function(req,res){
 	});
 
 	//Saving in Memcahed
-	var locationForJob = //from the client side//
+	/*var locationForJob = //from the client side//
 	var SkillForJob	= //from the client side//
-	var JobNameForJob = //form the client side//
+	var JobNameForJob = //form the client side//*/
 	mc.get(locationForJob,function(err,response,key){
 		if(response != null){
 

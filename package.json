@@ -23,6 +23,8 @@
     "express-session" : "~1.0.0",
     "mysql" : "*",
     "connect-flash" : "~0.1.1",
-    "bcrypt-nodejs" : "latest"  
+    "bcrypt-nodejs" : "latest",
+    "memcached" : "*"
+
   }
 }

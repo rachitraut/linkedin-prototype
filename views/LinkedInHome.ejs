@@ -1,0 +1,187 @@
+<!DOCTYPE html> 
+
+<html ng-app="MyApp">
+    <head>
+            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+			<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
+            <link href="../static/css/styles.css" rel="stylesheet">
+
+			<script src="javascripts/angularapp.js"></script>
+	</head>
+
+    
+    <body ng-controller="userLoginController">
+    
+          <img alt="full screen background image" src="images/New-York3.jpg" id="full-screen-background-image" /> 
+        
+        
+        <!--NAVIGATION CONTROLS-->
+          <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+     
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">BRAND</a>
+                <!--<img src="connectme.png" class="pull-left" id="brandimg"/>-->
+                <form class="navbar-form navbar-left" role="search" id="searchbar">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Jobs, People">
+                    </div>
+                        <a href="#"><span class="glyphicon glyphicon-search"></span>Search</a>
+                </form>
+                    <ul class="nav nav-pills pull-right">
+                           <li class="active"><a href="#">Home</a></li>
+                           <li><a href class="glyphicon glyphicon-user" ng-click="switchToUser()">User</a></li>
+                           <li><a href class="glyphicon glyphicon-cloud" ng-click="switchToCompany()">Company</a></li>
+                    </ul>
+                
+                <!--<p class ="navbar-text pull-right">
+                    <a href="#" class="navbar-link"</a>
+                </p>-->
+            </div>
+        </nav>
+        
+          
+        <div class="col-sm-4 col-sm-offset-3" ng-show="goReg" id="homeFormContainer">
+
+                <h1><span class="glyphicon glyphicon-user"></span> Signup</h1>
+
+                <!-- show any messages that come back with authentication -->
+                <% if(message != undefined) { %>
+                    <% if (message.length > 0) { %>
+                        <div class="alert alert-danger"><%= message %></div>
+                    <% } %>
+                <% } %>
+
+                <!-- LOGIN FORM -->
+                <form action="/signup/user" method="post">
+
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="firstname" ng-model="newUser.firstname" placeholder="Firstname">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="lastname" ng-model="newUser.lastname" placeholder="Lastname">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="email" ng-model="newUser.email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+
+                        <input type="password" class="form-control" name="password" ng-model="newUser.password" placeholder="Password">
+                    </div>
+
+                    <button type="submit" class="btn btn-warning btn-lg">Signup</button>
+                </form>
+
+                <hr>
+
+                <p>Already have an account? <a href ng-click="goLogIn()">Login</a></p>
+                <p>Or go <a href="/">home</a>.</p>
+
+        </div>
+
+        
+ 
+            <div class="col-sm-4 col-sm-offset-3" ng-show="goLogin" id="homeFormContainer">
+
+                    <h1><span class="glyphicon glyphicon-user"></span> Login</h1>
+
+                      <% if(message != undefined) { %>
+                        <% if (message.length > 0) { %>
+                            <div class="alert alert-danger"><%= message %></div>
+                        <% } %>
+                    <% } %>
+
+
+                    <!-- LOGIN FORM -->
+                    <form method="post" action="/login/user">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="email" ng-model="existingUser.email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+
+                            <input type="password" class="form-control" name="password" ng-model="existingUser.password" placeholder="Password">
+                        </div>
+
+                        <p><input type="submit" class="btn btn-success btn-md" ng-click="logMeIn()" name="Submit"></p>
+                    </form>
+
+                    <hr>
+
+                    <p>Need an account? <a href ng-click="goRegister()">Signup</a></p>
+                    <p>Or go <a href="/">home</a>.</p>
+
+            </div>
+        
+            <div class="col-sm-4 col-sm-offset-3" ng-show="goComReg" id="homeFormContainer">
+                    
+                    <h1><span class="glyphicon glyphicon-cloud"></span> Signup</h1>
+
+                    <!-- show any messages that come back with authentication -->
+                    <% if (message.length > 0) { %>
+                        <div class="alert alert-danger"><%= message %></div>
+                    <% } %>
+
+                    <!-- LOGIN FORM -->
+                    <form action="/signup/company" method="post">
+
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="newCompany.company" name="companyname" placeholder="company name">
+                        </div>
+                        <div class="form-group">
+                            
+                            <input type="text" class="form-control" ng-model="newCompany.email" name="email" placeholder="email">
+                        </div>
+                        <div class="form-group">
+
+                            <input type="password" class="form-control" ng-model="newCompany.password" name="password" placeholder="password">
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
+                    </form>
+
+                    <hr>
+
+                    <p>Already have an account? <a href ng-click="goCompanyLogIn()">Login</a></p>
+                    <p>Or go <a href="/">home</a>.</p>
+            </div>
+        
+             
+            <div class="col-sm-4 col-sm-offset-3" ng-show="goCompanyLogin" id="homeFormContainer">
+
+                    <h1><span class="glyphicon glyphicon-cloud"></span> Login</h1>
+
+                      <% if(message != undefined) { %>
+                        <% if (message.length > 0) { %>
+                            <div class="alert alert-danger"><%= message %></div>
+                        <% } %>
+                    <% } %>
+
+
+                    <!-- LOGIN FORM -->
+                    <form method="post" action="/login/company">
+
+                        <div class="form-group">
+
+                            <input type="text" class="form-control" name="email" ng-model="existingUser.email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" ng-model="existingUser.password" placeholder="Password">
+                        </div>
+
+                        <p><input type="submit" class="btn btn-success btn-md" ng-click="logCompanyIn()" name="Submit"></p>
+                    </form>
+
+                    <hr>
+
+                    <p>Need an account? <a href ng-click="goCompanyReg()">Signup</a></p>
+                    <p>Or go <a href="/">home</a>.</p>
+
+            </div>
+            
+    </body>
+    
+</html>
