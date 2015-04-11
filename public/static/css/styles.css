@@ -1,0 +1,92 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+   padding-top: 70px;
+}
+
+#main {
+  background-color: #DEDEDE;
+}
+
+#infoContainer{
+    border: 1px #92CCF0 solid;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 6px #ccc;
+    width: 60%;
+    background-color: #FFFFFF;
+    /*float: left;*/
+}
+
+
+#full-screen-background-image {
+  z-index: -999;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#wrapper {
+  position: relative;
+  width: 800px;
+  min-height: 400px;
+  margin: 100px auto;
+  color: #333;
+}
+
+
+
+#mainContainer{
+
+    
+}
+
+#homeContainer {
+ 
+    position: absolute;
+}
+
+#homeFormContainer{
+    
+    background-color: white;
+    margin-left: 35em;
+    margin-top: 1%;
+    border: 1.5px solid rgba(22, 110, 70, 0.57);
+    border-radius: 15px;
+ 
+
+}
+
+/*================ CUSTOM BUTTON ==========================*/
+.round {
+  border-radius: 24px;
+}
+
+.btn {
+	padding: 14px 24px;
+	border: 0 none;
+	font-weight: 700;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+.btn:focus, .btn:active:focus, .btn.active:focus {
+	outline: 0 none;
+}
+
+.btn-primary {
+	background: #0099cc;
+	color: #ffffff;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+	background: #33a6cc;
+}
+.btn-primary:active, .btn-primary.active {
+	background: #007299;
+	box-shadow: none;
+}

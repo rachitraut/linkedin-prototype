@@ -18,14 +18,14 @@ router.get('/home', function(req, res, next) {
 
 /* USER login */
 
-router.post('/signup/user', authHandle.registerNewUser, passport.authenticate('local-login', { successRedirect : '/profile/user', 
-                                               failureRedirect : '/login/user', 
+router.post('/signup/user', authHandle.registerNewUser, passport.authenticate('local-login', { successRedirect : '/editProfile', 
+                                               failureRedirect : '/', 
                                                failureFlash : true 
       }));
 
 
 router.post('/login/user', passport.authenticate('local-login', { successRedirect : '/profile/user', 
-                                               failureRedirect : '/login/user', 
+                                               failureRedirect : '/', 
                                                failureFlash : true 
       }));
 
@@ -66,7 +66,7 @@ router.get('/signup/company', function(req, res){
 
 
 router.post('/signup/company', authHandleCompany.registerNewCompany, passport.authenticate('local-company-login', { successRedirect : '/profile/company',
-                                                                           failureRedirect : '/login/company',
+                                                                           failureRedirect : '/',
                                                                            failureFlash : true
    }));
 
@@ -77,7 +77,7 @@ router.get('/login/company', function(req, res){
 
 
 router.post('/login/company', passport.authenticate('local-company-login', { successRedirect : '/profile/company',
-                                                                           failureRedirect : '/login/company',
+                                                                           failureRedirect : '/',
                                                                            failureFlash : true
    }));
 

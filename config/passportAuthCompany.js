@@ -1,7 +1,12 @@
 //var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var bcrypt   = require('bcrypt-nodejs');
+//var connection = require('../config/sqldb.js');
+
 var connection = require('../config/mysqlQuery');
+
+
+var bcrypt   = require('bcrypt-nodejs');
+
 
 
 //DEFINE USER MODEL
@@ -73,7 +78,6 @@ function updateLastLogin(companyname, fn)
 }
 
 
-
 //to register a new user
 var registerNewCompany =  function (req, res, next)
 {
@@ -84,7 +88,9 @@ var registerNewCompany =  function (req, res, next)
     
     if(email === 'undefined' || password === 'undefined')
     {
-        res.render('signup', { message : "Enter valid email/password"});
+         req.flash('message', 'Invalid input, please try again!');
+         res.redirect('/');
+        //res.render('signup', { message : "Enter valid email/password"});
     }
     
      console.log(email + " " + password);
@@ -99,8 +105,8 @@ var registerNewCompany =  function (req, res, next)
                 
                 if(results[0].email == email)
                 {
-                    console.log("Rendering signup");
-                    res.render('signup', { message : "Company already registered!" });
+                    req.flash('message', 'Company already registered, please login!');
+                    res.redirect('/');
                 }    
             }
             
@@ -116,7 +122,8 @@ var registerNewCompany =  function (req, res, next)
 
                         if(err){
                             console.log(err);
-                            res.render('signup', { message : "Error occured! Please try again!"});
+                             req.flash('message', "Something went wrong, please try again!" );
+                            res.redirect('/');
                         }
                         if(results != undefined){
                             console.log("Insert results: " + results);
@@ -125,7 +132,8 @@ var registerNewCompany =  function (req, res, next)
                             next();
                         }
                         else{
-                            res.render('signup', { message : "Error occured! Please try again!"});
+                            req.flash('message', "Something went wrong, please try again!" );
+                            res.redirect('/');
                         }
            
                     });//inner query
@@ -166,11 +174,13 @@ var passportAuthCompany = function(passport){
                         if(!company) 
                         {   
                             console.log("After callback, in not Company"); 
+                            req.flash('message', 'Login failed! Unknown company');
                             return done(null, false, {message: "Unknown company " + email}); 
                         }
                         if(!validatePassword(password, company.password)) 
                         {
                             console.log("checking secured password : " + company.password);
+                            req.flash('message', 'Invalid password');
                             return done(null, false, {message : "Invalid password"}); 
                         }
                         updateLastLogin(email);

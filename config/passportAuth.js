@@ -1,10 +1,12 @@
 //var passport = require('passport');
-//var connection = require('../config/sqldb.js');
-//var connection = connection.getConnection();
-
 var LocalStrategy = require('passport-local').Strategy;
-var bcrypt   = require('bcrypt-nodejs');
+//var connection = require('../config/sqldb.js');
+
 var connection = require('../config/mysqlQuery');
+
+var bcrypt   = require('bcrypt-nodejs');
+
+//var connection = connection.getConnection();
 
 
 //DEFINE USER MODEL for serialization/deserialization purpose
@@ -49,14 +51,16 @@ var registerNewUser =  function (req, res, next)
     
     if(email === 'undefined' || password === 'undefined')
     {
-        res.render('signup', { message : "Enter valid email/password"});
+        req.flash('message', 'Invalid input detected, please try again!');
+        res.redirect('/');
+        //res.render('signup', { message : "Enter valid email/password"});
     }
     
      console.log(email + " " + password);
     
-        var qrStr = 'Select * from LoginDetails where email=' + "'"+ email +"'"; 
+        var userInfo = 'Select * from LoginDetails where email=' + "'"+ email +"'"; 
    
-        connection.execQuery(qrStr, function(err, results, fields){
+        connection.execQuery(userInfo, function(err, results, fields){
    
             if( (results[0] != undefined))
             {
@@ -64,8 +68,8 @@ var registerNewUser =  function (req, res, next)
                 
                 if(results[0].email == email)
                 {
-                    console.log("Rendering signup");
-                    res.render('signup', { message : "User already registered!" });
+                    req.flash('message', 'User already registered, please login!');
+                    res.redirect('/');
                 }    
             }
             
@@ -73,15 +77,15 @@ var registerNewUser =  function (req, res, next)
             {
                 console.log(email + " " + password);
                 
-                var queryString  = 'Insert into LoginDetails (email, password, firstname, lastname) values ("' + email + '","' + password + '","' + firstname + '","' + lastname + '")' ;
+                var insertUser  = 'Insert into LoginDetails (email, password, firstname, lastname) values ("' + email + '","' + password + '","' + firstname + '","' + lastname + '")' ;
 
                 console.log("In registerNewUser()");
 
-                connection.execQuery(queryString, function(err, results, fields){
+                connection.execQuery(insertUser, function(err, results, fields){
 
                         if(err){
-                            console.log(err);
-                            res.render('signup', { message : "Error occured! Please try again!"});
+                             req.flash('message', err);
+                            res.redirect('/');
                         }
                         if(results != undefined){
                             console.log("Insert results: " + results);
@@ -90,11 +94,14 @@ var registerNewUser =  function (req, res, next)
                             next();
                         }
                         else{
-                            res.render('signup', { message : "Error occured! Please try again!"});
+                            
+                            req.flash('message', 'Something went wrong, please try again!');
+                            res.redirect('/');
                         }
            
                     });//inner query
-               }//else
+                    
+            }//else
 
     });
     
@@ -159,7 +166,9 @@ function findUserById(userid, fn)
             var user =  new User();
             user.userId = results[0].Id;
             user.email = results[0].email;
-            user.password = results[0].password;
+            //user.password = results[0].password;
+            user.firstname = results[0].firstname;
+            user.lastname = results[0].lastname;
             
             fn(null, user);
         }
@@ -211,7 +220,7 @@ var passportAuth = function(passport){
         if(user.userId != undefined)
         {
             console.log('@@@@@@@@@@@@@@@@@ Serializing user ' + user);
-            done(null, {'user' : user.userId});
+            done(null, {'user' : user.userId, 'email' : user.email, 'firstname' : user.firstname, 'lastname' : user.lastname});
         }
         if(user.companyId != undefined)
         {
@@ -224,8 +233,6 @@ var passportAuth = function(passport){
     //deserialize user to get data and then authenticate 
     passport.deserializeUser(function(obj, done){
                
-        
-        
         if(obj.user != undefined)
         {
             console.log('****************** Deserializing user ' + obj.user);
@@ -272,11 +279,13 @@ var passportAuth = function(passport){
                         if(!user) 
                         {   
                             console.log("After callback, in not user"); 
+                             req.flash('message', 'Login failed! Unknown user');
                             return done(null, false, {message: "Unknown user " + email}); 
                         }
                         if(!validatePassword(password, user.password)) 
                         {
                             console.log("checking secured password : " + user.password);
+                             req.flash('message', 'Login failed! Invalid password');
                             return done(null, false, {message : "Invalid password"}); 
                         }
                         updateLastLogin(email);

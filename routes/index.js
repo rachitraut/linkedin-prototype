@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', {message: req.flash('error')});
+  res.render('index', { message: req.flash('message')});
 };

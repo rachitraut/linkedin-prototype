@@ -47,6 +47,8 @@ exports.jobposts=function(req, res){
 
 exports.getProfile = function(req,res){
 	
+	
+	
     ejs.renderFile('./views/userprofile.ejs',function(err, result) {
 		   // render on success
 		   if (!err) {
