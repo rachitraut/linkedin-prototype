@@ -1,4 +1,4 @@
-var config = require('../models/auth');
+/*var config = require('../models/auth');
 var ejs = require("ejs");
 var ddb = require('dynamodb').ddb({ accessKeyId:config.ACCESS_KEY,secretAccessKey: config.ACCESS_SECRET, endpoint:config.ENDPOINT});
 
@@ -128,9 +128,9 @@ exports.getJobPosts = function(req,res){
 	});
 
 	//Saving in Memcahed
-	/*var locationForJob = //from the client side//
-	var SkillForJob	= //from the client side//
-	var JobNameForJob = //form the client side//*/
+	//var locationForJob = //from the client side//
+	//var SkillForJob	= //from the client side//
+	//var JobNameForJob = //form the client side//
 	mc.get(locationForJob,function(err,response,key){
 		if(response != null){
 
@@ -173,4 +173,4 @@ exports.getJobPosts = function(req,res){
 };
 
 
-	
+	*/

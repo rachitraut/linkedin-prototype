@@ -1,0 +1,70 @@
+body { padding-top: 70px; }
+
+#main{
+    background-color: #DEDEDE;
+}
+
+#searchbar{
+    margin-left: 25%;
+}
+
+#content{
+    border: 1px #92CCF0 solid;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 6px #ccc;
+    width: 60%;
+    background-color: #FFFFFF;
+    float: left;
+}
+
+
+#colcontent
+{
+    border: 1px #92CCF0 solid;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 6px #ccc;
+    width: 60%;
+    background-color: #FFFFFF;
+    float: left;
+    margin-left: -3.2%
+
+}
+
+#innercontent{
+    margin-left: 2%;
+}
+
+#parallelcontainer{
+    width : 30%;
+    float: left;
+    margin-left: 2%;
+     border: 1px #92CCF0 solid;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 6px #ccc;
+    background-color: #FFFFFF;
+
+}
+
+#wrapper{
+ 
+    margin-left: 15%;
+
+}
+
+
+#panel{
+    width: 123%;
+}
+
+#seperator{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+#brandimg{
+    float: left;
+    margin-left: -10px;
+}

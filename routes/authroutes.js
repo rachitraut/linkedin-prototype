@@ -51,7 +51,7 @@ router.get('/logout/user', function(req, res){
 
 router.get('/profile/user', isLoggedIn, function(req, res){
     
-    res.render('profile', { user : req.user});
+    res.render('personalprofile', { user : req.user});
 });
 
 
@@ -100,6 +100,8 @@ router.get('/profile/company', isLoggedIn, function(req, res){
 
 router.get('/', routes.index);
 
+
+
 //profile edit page.
 router.get('/editProfile',user.viewProfile);
 
@@ -111,18 +113,18 @@ router.get('/userProfile',user.getProfile);
 
 
 //Company profile information and job posting details of the company
-router.post('/companyProfile',company.postCompany);
+//router.post('/companyProfile',company.postCompany);
 
 //save profile info for users
 router.post('/userProfile',user.postProfile);
 
 //Companyprofile page
-router.get('/editCompanyProfile',company.getEditProfile);
+//router.get('/editCompanyProfile',company.getEditProfile);
 
 //save jobPosts in the company
-router.post('/postJob',company.jobPosts);
+//router.post('/postJob',company.jobPosts);
 
-router.get('/getJob',company.getJobPosts);
+//router.get('/getJob',company.getJobPosts);
 
 
 /*=========== HELPER FUNCTIONS ===========================*/

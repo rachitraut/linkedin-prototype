@@ -47,9 +47,10 @@ exports.jobposts=function(req, res){
 
 exports.getProfile = function(req,res){
 	
+	    res.render('personalprofile', { message : req.user});
+
 	
-	
-    ejs.renderFile('./views/userprofile.ejs',function(err, result) {
+    /*ejs.renderFile('./views/userprofile.ejs',function(err, result) {
 		   // render on success
 		   if (!err) {
 		            res.end(result);
@@ -59,13 +60,13 @@ exports.getProfile = function(req,res){
 		            res.end('An error occurred');
 		            console.log(err);
 		   }
-	   });
+	   });*/
     
   
 };
 
 exports.viewProfile = function(req,res){
-	ejs.renderFile('./views/editprofile.ejs',function(err, result) {
+	/*ejs.renderFile('./views/editprofile.ejs',function(err, result) {
 		   // render on success
 		   if (!err) {
 		            res.end(result);
@@ -76,7 +77,10 @@ exports.viewProfile = function(req,res){
 		            res.end('An error occurred');
 		            console.log(err);
 		   }
-	   });
+	   });*/
+	
+	    res.render('editProfile', { message : req.user });
+
 };
 exports.postProfile = function(req,res){
 	/*var item = {
