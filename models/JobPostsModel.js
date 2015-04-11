@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var jobPost = new Schema({
 			_id: String,
 			CompanyId:String,
+			CompanyName:String,
 			JobName:String,
 			KeyWords:[String],
 			SkillSet:String,

@@ -1,4 +1,59 @@
-<!-- views/home.ejs -->
+<div class="home view">
+    <div class="container">
+    	<div>
+    		<header>
+    			<h3>Posts</h3>
+    		</header>
+    		<br />
+    		<div>
+    			<div class="posts" data-ng-repeat="user in users track by user.UserId">
+    			{{user.FirstName + ' ' + user.LastName}}
+    			<br />
+    			{{user.Posts}}
+    			</div>
+    		</div>
+    	</div>
+        <header>
+            <h3>Users Following</h3>
+        </header>
+        <br /><br />
+        <div>
+            <div class="row cardContainer">
+                <div class="span3 card" data-ng-repeat="user in users track by user.UserId" >
+                    <div class="cardHeader">{{user.FirstName + ' ' + user.LastName}}</div>
+                    <a href="#/profile/{{user.UserId}}" class="cardBody btn-link">View Profile</a>
+                </div>
+            </div>
+        </div>
+        <header>
+            <h3>Companies Following</h3>
+        </header>
+        <br /><br />
+        <div>
+            <div class="row cardContainer">
+                <div class="span3 card" data-ng-repeat="company in companies track by company.CompanyId" >
+                    <div class="cardHeader">{{company.CompanyName}}</div>
+                    <a href="#/profile/{{company.CompanyId}}" class="cardBody btn-link">View Company Page</a>
+                </div>
+            </div>
+        </div>
+        <div>
+    		<header>
+    			<h3>Job Posts</h3>
+    		</header>
+    		<br />
+    		<div>
+    			<div class="postsContainer" data-ng-repeat="post in jobposts track by post._id">
+    			{{post.CompanyName}}
+    			<br />
+    			{{post.JobName}}
+    			<br />
+    			{{post.JobDescription}}
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div><!-- views/home.ejs -->
 <!doctype html>
 <html>
 <head>

@@ -25,6 +25,7 @@ var user = new Schema({UserId:Number,
 						  StartDate:String,
 						  EndDate:String
 						  },
+					  Posts:String,
 					  UserFollowed:[Number],
 					  CompanyFollowed:[Number]
 					  });

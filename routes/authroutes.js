@@ -101,12 +101,24 @@ router.get('/profile/company', isLoggedIn, function(req, res){
 router.get('/', routes.index);
 
 
+/* User dashboard routes*/
+
+//get list of companies following
+router.get('/companyFollowing',user.getCompanyFollowing)
+
+//get lists of job posts
+router.get('/getJobPosts',user.getJobPosts);
 
 //profile edit page.
 router.get('/editProfile',user.viewProfile);
 
+//to get list of users followed
+router.get('/userFollowing',user.getUserFollowing)
+
 //UserProfile page
 router.get('/userProfile',user.getProfile);
+
+/*company dashboard routes*/
 
 //Companyprofile page
 //router.get('/companyprofile',company.getProfile);
