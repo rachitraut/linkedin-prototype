@@ -6,32 +6,6 @@ angular.module('MyApp', ['ui.router'])
 
 .factory('userservice', ['$http', '$state', userServiceHandler])
 
-/*
-.config(['$stateProvider', '$urlRouterProvider', appConfigHandler])
-
-.run(['$state', function ($state) {
-  $state.transitionTo('home');
-}]);
-
-
-function appConfigHandler($stateProvider, $urlRouterProvider){
-    
-    $urlRouterProvider.otherwise('home');
-    
-    $stateProvider
-    .state('home', {
-        url : '/login/user',
-        templateUrl : '/home.html',
-        controller: 'userLoginController'
-    })
-    .state('userRegistration', {
-        url: '/signup/user',
-       templateUrl : '/signup.html',
-        controller: 'userRegController'
-     
-    });    
-}*/
-
 
 function userServiceHandler($http)
 {

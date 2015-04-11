@@ -1,31 +1,5 @@
-/*var config = require('../models/auth');
-var ejs = require("ejs");
-var ddb = require('dynamodb').ddb({ accessKeyId:config.ACCESS_KEY,secretAccessKey: config.ACCESS_SECRET, endpoint:config.ENDPOINT});
-
-//Connecting to the memcached using AWS sdk.
-var AWS = require('aws-sdk'),
-    Memcached = require('memcached');
-var mc = Memcached.Client.create('hostname:port', {
-  username: 'username',
-  password: 'password'
-});
-
 CompanyProfile = require('../models/CompanyModel');
-JobPosts = require('../models/JobPostsModel');
 
-exports.getEditProfile = function(req,res){
-	ejs.renderFile('./views/companyeditprofile.ejs',function(err, result) {
-		   // render on success
-		   if (!err) {
-		            res.end(result);
-		   }
-		   // render or error
-		   else {
-		            res.end('An error occurred');
-		            console.log(err);
-		   }
-	   });
-}
 exports.postCompany = function(req,res){
 	
 	
@@ -47,9 +21,42 @@ exports.postCompany = function(req,res){
 		if(err)
 			throw err;
 		console.log("company profile added : " + cm);
+        
+        res.json({'save': 'Success'});
 	});		
-	res.end("Company profile added");
+	//res.end("Company profile added");
+    
 };
+
+
+/*var config = require('../models/auth');
+var ejs = require("ejs");
+var ddb = require('dynamodb').ddb({ accessKeyId:config.ACCESS_KEY,secretAccessKey: config.ACCESS_SECRET, endpoint:config.ENDPOINT});
+
+//Connecting to the memcached using AWS sdk.
+var AWS = require('aws-sdk'),
+    Memcached = require('memcached');
+var mc = Memcached.Client.create('hostname:port', {
+  username: 'username',
+  password: 'password'
+});
+
+
+JobPosts = require('../models/JobPostsModel');
+
+exports.getEditProfile = function(req,res){
+	ejs.renderFile('./views/companyeditprofile.ejs',function(err, result) {
+		   // render on success
+		   if (!err) {
+		            res.end(result);
+		   }
+		   // render or error
+		   else {
+		            res.end('An error occurred');
+		            console.log(err);
+		   }
+	   });
+}
 
 exports.jobPosts = function(req,res){
 

@@ -44,8 +44,8 @@
                 </form>
                     <ul class="nav nav-pills pull-right">
                            <li><a href="#">Home</a></li>
-                           <li><a href class="active glyphicon glyphicon-user" ng-click="switchToUser()">User</a></li>
-                           <li><a href="/logout" class="glyphicon glyphicon-log-out">Logout</a></li>
+                           <li><a href class="active glyphicon glyphicon-user" ng-click="switchToUser()">Company</a></li>
+                           <li><a href="/logout/user" class="glyphicon glyphicon-log-out">Logout</a></li>
                     </ul>
                 
                 <!--<p class ="navbar-text pull-right">
@@ -65,14 +65,13 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-8">
                                     <h2><p class="text-uppercase"><strong>{{name}}</strong></p></h2>
-                                    <p>{{status}}</p>
                                     <div class="row">
-                                        <div class="col-xs-6"><h4><small>{{Location}}</small></h4></div>  
-                                        <div class="col-xs-6"><h4><small>{{Specialization}}</small></h4></div>
+                                        <div class="col-xs-6"><h4><small>{{Headquarters}}</small></h4></div>  
+                                        <div class="col-xs-6"><h4>Established <small>{{Founded}}</small></h4></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-xs-6"><h4><small>{{Education}}</small></h4></div>  
-                                        <div class="col-xs-6"><h4><small>{{Company}}</small></h4></div>
+                                        <div class="col-xs-6"><h4><small>{{url}}</small></h4></div>  
+                                        <div class="col-xs-6"><h4><small>{{Followers}}</small></h4></div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-4">
@@ -95,55 +94,7 @@
             
             <div class="container" id="seperator"></div>
           
-            <div class="container" id="content">
-                <div class="row" id="innercontent">
-                    <p class="lead" >Experience</p>
-                    {{experience details here}}
-                </div>
-            </div>
-          
-              <div class="container" id="seperator"></div>
-          
-            <div class="container" id="content">
-                <div class="row" id="innercontent">
-                    <p class="lead" >Projects</p>
-                    {{project details here}}
-                </div>
-            </div>
-          
-          <div class="container" id="seperator"></div>
-          
-            <div class="container" id="content">
-                <div class="row" id="innercontent">
-                    <p class="lead" >Skills</p>
-                            <p>
-                                <span class="label label-info tags">html5</span> 
-                                <span class="label label-info tags">css3</span>
-                                <span class="label label-info tags">jquery</span>
-                                <span class="label label-info tags">bootstrap3</span>
-                            </p>
-                </div>
-            </div>
-          
-               <div class="container" id="seperator"></div>
-          
-            <div class="container" id="content">
-                <div class="row" id="innercontent">
-                    <p class="lead" >Personal Details</p>
-                        <p>Birthdate: </p>
-                        <p>Others: </p>
-                </div>
-            </div>
-          
-                <div class="container" id="seperator"></div>
-          
-            <div class="container" id="content">
-                <div class="row" id="innercontent">
-                    <p class="lead" >Following</p>
-                    {{Following List here}}
-                </div>
-            </div>
-          
+                   
                         <div class="container" id="seperator"></div>
 
       </div><!-- top container-->

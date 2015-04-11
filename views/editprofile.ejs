@@ -57,7 +57,7 @@
                     <ul class="nav nav-pills pull-right">
                            <li><a href="#">Home</a></li>
                            <li><a href class="active glyphicon glyphicon-user" ng-click="switchToUser()">User</a></li>
-                           <li><a href="/logout/user" class="glyphicon glyphicon-log-out">Logout</a></li>
+                           <li><a href="/logout" class="glyphicon glyphicon-log-out">Logout</a></li>
                     </ul>
                 
                 <!--<p class ="navbar-text pull-right">
@@ -257,9 +257,9 @@
                         alert(JSON.stringify(response));
                         
                         if(response.save == "Success")
-                          window.location = '/viewProfile';
+                          window.location = '/userProfile';
                         else
-                          window.location = '/viewProfile';
+                          window.location = '/userProfile';
                     }).error(function(error){
                         alert("error");
                     });

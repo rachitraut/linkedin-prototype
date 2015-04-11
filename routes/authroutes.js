@@ -10,11 +10,35 @@ var router = express.Router();
 var passport = require('passport');
 
 
-/* GET home page. */
-router.get('/home', function(req, res, next) {
-  res.render('home', { title: 'Express' });
+
+router.use(function(req, res, next){
+
+    
+        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    
+    next();
 });
 
+
+
+/* GET home page. */
+router.get('/', function(req, res){
+    
+        if(req.user === undefined){
+
+            console.log("#User not logged in yet");
+        }
+        else{
+            console.log("#User object " + req.user.email);
+            console.log("#User already logged in");
+        }
+  
+    
+    console.log("==================== REQUEST  "+ JSON.stringify(req.user));
+
+    res.render('LinkedInHome', { message: req.flash('message')});
+    
+});
 
 /* USER login */
 
@@ -42,10 +66,15 @@ router.get('/login/user', function(req, res){
 });
 
 
-router.get('/logout/user', function(req, res){
+router.get('/logout', function(req, res){
     
     req.logout();
-    res.redirect('/');
+            req.flash('message', 'Logged out');
+
+    req.session.destroy(function(err){
+        res.redirect('/');    
+    });
+      
 });
 
 
@@ -65,7 +94,7 @@ router.get('/signup/company', function(req, res){
 });
 
 
-router.post('/signup/company', authHandleCompany.registerNewCompany, passport.authenticate('local-company-login', { successRedirect : '/profile/company',
+router.post('/signup/company', authHandleCompany.registerNewCompany, passport.authenticate('local-company-login', { successRedirect : '/editCompanyProfile',
                                                                            failureRedirect : '/',
                                                                            failureFlash : true
    }));
@@ -76,17 +105,11 @@ router.get('/login/company', function(req, res){
 });
 
 
-router.post('/login/company', passport.authenticate('local-company-login', { successRedirect : '/profile/company',
+router.post('/login/company', passport.authenticate('local-company-login', { successRedirect : '/companyprofile',
                                                                            failureRedirect : '/',
                                                                            failureFlash : true
    }));
 
-
-router.get('/logout/company', function(req, res){
-    
-    req.logout();
-    res.redirect('/');
-});
 
 router.get('/profile/company', isLoggedIn, function(req, res){
     
@@ -96,9 +119,6 @@ router.get('/profile/company', isLoggedIn, function(req, res){
     res.render('profile', { user : req.user});
 });
 
-
-
-router.get('/', routes.index);
 
 
 /* User dashboard routes*/
@@ -118,20 +138,28 @@ router.get('/userFollowing',user.getUserFollowing)
 //UserProfile page
 router.get('/userProfile',user.getProfile);
 
-/*company dashboard routes*/
-
-//Companyprofile page
-//router.get('/companyprofile',company.getProfile);
-
-
-//Company profile information and job posting details of the company
-//router.post('/companyProfile',company.postCompany);
-
 //save profile info for users
 router.post('/userProfile',user.postProfile);
 
-//Companyprofile page
-//router.get('/editCompanyProfile',company.getEditProfile);
+
+/*company dashboard routes*/
+
+//Company profile information and job posting details of the company
+router.get('/companyprofile', function(req, res){
+    
+    res.render('company.ejs');
+});
+
+router.get('/editCompanyProfile', function(req, res){
+    
+    res.render('companyeditprofile.ejs');
+});
+
+
+router.post('/companyProfile',company.postCompany);
+
+
+
 
 //save jobPosts in the company
 //router.post('/postJob',company.jobPosts);
@@ -142,13 +170,25 @@ router.post('/userProfile',user.postProfile);
 /*=========== HELPER FUNCTIONS ===========================*/
 
 
+
 function isLoggedIn(req, res, next)
 {
-    if(req.isAuthenticated())
-        console.log("After req.isAuthenticated().....");
-        return next();
+    console.log("In isLoggedIn() ");
     
-    res.redirect('/');
+    var flag = req.isAuthenticated();
+    
+    console.log("@req.isauthenticated " + flag);
+    
+    if(!flag)
+    {
+        res.redirect('/');
+    }
+    
+    if(flag)
+    {   console.log("After req.isAuthenticated().....");
+        return next();
+    }
+    //res.redirect('/');
 }
 
 module.exports = router;
