@@ -114,8 +114,13 @@ exports.getJobPosts = function(req,res){
 		async.each(companyFollowedArray,
 				function(id,callback){
 					CompanyModel.findOne({"CompanyId" : id}, function(err, resp) {
-						postArray.push(resp.JobPosts);
-						callback();
+						
+						if(resp != null)
+						{
+							postArray.push(resp.JobPosts);
+							callback();
+						}
+
 					});				
 				},
 				function(err){

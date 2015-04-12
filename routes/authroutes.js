@@ -68,11 +68,13 @@ router.get('/login/user', function(req, res){
 
 router.get('/logout', function(req, res){
     
-        req.logout();
+        
+        console.log("LOGGGGGGGGGGING OUT");
         req.flash('message', 'Logged out');
 
         req.session.destroy(function(err){
-        res.redirect('/');    
+          req.logout();
+          res.redirect('/');    
     });
       
 });
@@ -100,11 +102,12 @@ router.post('/signup/company', authHandleCompany.registerNewCompany, passport.au
                                                                            failureFlash : true
    }));
 
+/*
 router.get('/login/company', function(req, res){
     
     res.render('companylogin', {user: req.company, message: req.flash('error')});
 });
-
+*/
 
 router.post('/login/company', passport.authenticate('local-company-login', { successRedirect : '/companyprofile',
                                                                            failureRedirect : '/',

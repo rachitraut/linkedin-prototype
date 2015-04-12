@@ -88,10 +88,30 @@ var registerNewUser =  function (req, res, next)
                             res.redirect('/');
                         }
                         if(results != undefined){
-                            console.log("Insert results: " + results);
-                            console.log("User registered");
-                            //res.render('signup', { message : "User registered, please proceed to login!" });    
-                            next();
+                            console.log("Insert results: " + JSON.stringify(results) + " " + results.insertId);
+
+                            var user = new User;
+                            user.userId = results.insertId;
+                            user.email = req.body.email;
+                            user.firstname = req.body.firstname;
+                            user.lastname = req.body.lastname;
+
+                            //save minimum registration data in mongodb too
+                            saveUSerRegData(user, function(err, flag){
+
+                                if(err)
+                                {
+                                    req.flash('message', 'Something went wrong, please try again!');
+                                    res.redirect('/');
+                                }
+
+                                if(flag)
+                                {
+                                    next();
+                                }
+                            });
+
+                            //next();
                         }
                         else{
                             
@@ -233,31 +253,6 @@ function saveUSerRegData(user, fn){
 }
 
 
-function saveCompanyRegData(user, fn){
-
-    cm = new CompanyProfile;
-    
-    cm.UserId = user.companyId;
-    cm.CompanyName = user.companyname;
-    cm._id = user.companyId;
-    
-    
-    console.log("############## " + user +  " " + user.companyId + " " + user.companyname);
-    
-    cm.save(function(err){
-        
-        if(err)
-        {
-            throw err;
-            return fn(err, false);
-        }
-        else{
-            console.log("company profile added : " + cm);
-            return fn(err, true);
-        }
-    });
-    
-}
 
 
 module.exports.registerNewUser = registerNewUser;
@@ -275,42 +270,15 @@ var passportAuth = function(passport){
         {
             console.log(' Serializing user ' + user);
             
-            saveUSerRegData(user, function(err, flag){
-                
-                    console.log("flag, err" + flag + " " + err);
-               
-                    if(flag)
-                    {
-                        console.log("USER data saved");
-                        done(null, {'user' : user.userId, 'email' : user.email, 'firstname' : user.firstname, 'lastname' : user.lastname});
-                    }
-                
-                    done(null, {'user' : user.userId, 'email' : user.email, 'firstname' : user.firstname, 'lastname' : user.lastname});
-
-            });
-            
-            //done(null, {'user' : user.userId, 'email' : user.email, 'firstname' : user.firstname, 'lastname' : user.lastname});
+            done(null, {'user' : user.userId, 'email' : user.email, 'firstname' : user.firstname, 'lastname' : user.lastname});
         }
         
         //serialize the company
         if(user.companyId != undefined)
         {
             console.log('@@@@@@@@@@@@@@@@@@@@@@ Serializing company ' + user);
-            
-            saveCompanyRegData(user, function(err, flag){
-            
-                    console.log("flag, err" + flag + " " + err);
-                    if(flag)
-                    {
-                        console.log("Company data saved");
-                         done(null, {'company' : user.companyId})
-                    }
-                
-                  done(null, {'company' : user.companyId})
-
-            });
-            
-            //done(null, {'company' : user.companyId})
+                         
+            done(null, {'company' : user.companyId})
         }
         
     });
