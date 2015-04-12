@@ -4,17 +4,15 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var connection = require('../config/mysqlQuery');
 
-
 var bcrypt   = require('bcrypt-nodejs');
 
-
-
 //DEFINE USER MODEL
-function Company(companyId, email, password){
+function Company(companyId, email, password, companyname){
 
     this.companyId = companyId;
     this.email = email;
     this.password = password;
+    this.companyname = companyname;
 }
 
 
@@ -52,6 +50,7 @@ function findByCompany(companyname, fn)
                 company.companyId = results[0].CompanyId;
                 company.email = results[0].email;
                 company.password = results[0].password;
+                company.companyname = results[0].companyname;
 
                 return fn(null, company);
             }
@@ -126,10 +125,11 @@ var registerNewCompany =  function (req, res, next)
                             res.redirect('/');
                         }
                         if(results != undefined){
+                            
                             console.log("Insert results: " + results);
-                            console.log("Company registered");
-                            //res.render('signup', { message : "Company registered, please proceed to login!" }); 
-                            next();
+                           
+                             next();
+                               
                         }
                         else{
                             req.flash('message', "Something went wrong, please try again!" );

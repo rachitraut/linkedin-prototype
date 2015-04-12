@@ -1,12 +1,11 @@
 //var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 //var connection = require('../config/sqldb.js');
-
 var connection = require('../config/mysqlQuery');
-
 var bcrypt   = require('bcrypt-nodejs');
+var CompanyProfile = require('../models/CompanyModel');
+var UserModel = require('../models/UserModel');
 
-//var connection = connection.getConnection();
 
 
 //DEFINE USER MODEL for serialization/deserialization purpose
@@ -19,11 +18,12 @@ function User(userId, email, password){
 
 
 //DEFINE COMPANY MODEL for serialization/deserialization purpose
-function Company(companyId, email, password){
+function Company(companyId, email, password, companyname){
 
     this.companyId = companyId;
     this.email = email;
     this.password = password;
+    this.companyname = companyname;
 }
 
 
@@ -207,6 +207,59 @@ function findCompanyById(companyid, fn)
 
 
 
+function saveUSerRegData(user, fn){
+    
+    var us = new UserModel;
+    
+    us.UserId = user.userId;
+    us.Firstname = user.firstname;
+    us.Lastname = user.lastname;
+    us.Email = user.email;
+    
+      console.log("############## " + user +  " " + user.userId + " " + user.firstname);
+    
+    us.save(function(err){
+        
+        if(err)
+        {
+            throw err;
+            return fn(err, false);
+        }
+        else{
+            console.log("user profile added : " + us);
+            return fn(err, true);
+        }
+    });
+}
+
+
+function saveCompanyRegData(user, fn){
+
+    cm = new CompanyProfile;
+    
+    cm.UserId = user.companyId;
+    cm.CompanyName = user.companyname;
+    cm._id = user.companyId;
+    
+    
+    console.log("############## " + user +  " " + user.companyId + " " + user.companyname);
+    
+    cm.save(function(err){
+        
+        if(err)
+        {
+            throw err;
+            return fn(err, false);
+        }
+        else{
+            console.log("company profile added : " + cm);
+            return fn(err, true);
+        }
+    });
+    
+}
+
+
 module.exports.registerNewUser = registerNewUser;
 
 
@@ -215,17 +268,49 @@ var passportAuth = function(passport){
     //serialize user to decide what to stor in session
     passport.serializeUser(function(user, done){
         
-        console.log('******************* In deserialize ' + user);
+        console.log('In deserialize ' + user);
         
+        //serialize the user
         if(user.userId != undefined)
         {
-            console.log('@@@@@@@@@@@@@@@@@ Serializing user ' + user);
-            done(null, {'user' : user.userId, 'email' : user.email, 'firstname' : user.firstname, 'lastname' : user.lastname});
+            console.log(' Serializing user ' + user);
+            
+            saveUSerRegData(user, function(err, flag){
+                
+                    console.log("flag, err" + flag + " " + err);
+               
+                    if(flag)
+                    {
+                        console.log("USER data saved");
+                        done(null, {'user' : user.userId, 'email' : user.email, 'firstname' : user.firstname, 'lastname' : user.lastname});
+                    }
+                
+                    done(null, {'user' : user.userId, 'email' : user.email, 'firstname' : user.firstname, 'lastname' : user.lastname});
+
+            });
+            
+            //done(null, {'user' : user.userId, 'email' : user.email, 'firstname' : user.firstname, 'lastname' : user.lastname});
         }
+        
+        //serialize the company
         if(user.companyId != undefined)
         {
             console.log('@@@@@@@@@@@@@@@@@@@@@@ Serializing company ' + user);
-            done(null, {'company' : user.companyId})
+            
+            saveCompanyRegData(user, function(err, flag){
+            
+                    console.log("flag, err" + flag + " " + err);
+                    if(flag)
+                    {
+                        console.log("Company data saved");
+                         done(null, {'company' : user.companyId})
+                    }
+                
+                  done(null, {'company' : user.companyId})
+
+            });
+            
+            //done(null, {'company' : user.companyId})
         }
         
     });

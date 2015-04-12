@@ -28,7 +28,6 @@ exports.postCompany = function(req,res){
     
 };
 
-
 /*var config = require('../models/auth');
 var ejs = require("ejs");
 var ddb = require('dynamodb').ddb({ accessKeyId:config.ACCESS_KEY,secretAccessKey: config.ACCESS_SECRET, endpoint:config.ENDPOINT});

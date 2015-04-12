@@ -9,6 +9,7 @@ var user = new Schema({UserId:Number,
 					   Country:String, 
 					   ZipCode: Number,
 					   Bio: String,
+					   Email:String,
 					   Company:{
 				   		  Name:String,
 				   		  Title:String, 

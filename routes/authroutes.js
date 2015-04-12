@@ -68,10 +68,10 @@ router.get('/login/user', function(req, res){
 
 router.get('/logout', function(req, res){
     
-    req.logout();
-            req.flash('message', 'Logged out');
+        req.logout();
+        req.flash('message', 'Logged out');
 
-    req.session.destroy(function(err){
+        req.session.destroy(function(err){
         res.redirect('/');    
     });
       
