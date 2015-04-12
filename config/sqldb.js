@@ -3,10 +3,10 @@ var mysqlcon;
 
 var connection = mysql.createConnection(
         {
-            host : 'localhost',
+            host : 'demoapp.cnfiarybvhfe.us-west-1.rds.amazonaws.com:3306',
             user : 'root',
-            password: 'root',
-            database : 'Users'
+            password: '12345678',
+            database : 'sampledb'
 
         });
 
