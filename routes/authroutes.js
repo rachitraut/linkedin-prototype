@@ -78,11 +78,12 @@ router.get('/logout', function(req, res){
 });
 
 
-router.get('/profile/user', isLoggedIn, function(req, res){
+router.get('/profile/user', function(req, res){
     
-    res.render('personalprofile', { user : req.user});
+    res.render('ProfileManager', { user : 1});
 });
 
+router.get('/getProfile',user.getProfile)
 
 
 
@@ -133,7 +134,7 @@ router.get('/getJobPosts',user.getJobPosts);
 router.get('/editProfile',user.viewProfile);
 
 //to get list of users followed
-router.get('/userFollowing',user.getUserFollowing)
+router.get('/userFollowing/:id',user.getUserFollowing)
 
 //UserProfile page
 router.get('/userProfile',user.getProfile);

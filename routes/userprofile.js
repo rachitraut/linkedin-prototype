@@ -7,22 +7,12 @@ var JobPosts = require('../models/JobPostsModel');
 
 exports.getProfile = function(req,res){
 	
-	    res.render('personalprofile', { message : req.user});
-
-	
-    /*ejs.renderFile('./views/userprofile.ejs',function(err, result) {
-		   // render on success
-		   if (!err) {
-		            res.end(result);
-		   }
-		   // render or error
-		   else {
-		            res.end('An error occurred');
-		            console.log(err);
-		   }
-	   });*/
-    
-  
+	UserModel.findOne({"UserId":1},function(err,response){
+		if(err)
+			console.log(err);
+		console.log("response is "+ response);
+		res.json(response);
+	}); 
 };
 
 exports.viewProfile = function(req,res){
